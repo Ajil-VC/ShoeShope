@@ -1,19 +1,43 @@
-const {PORT} = require('./config/config')
+const mongoose = require('mongoose')
+const session = require('express-session')
+
+const {PORT,sessionSecret} = require('./config/config')
 
 const express = require('express')
 const app = express();
-const userRouter = require('./routes/userRoutes')
 
-app.set('view engine','ejs')
-app.set('views')
+app.use(session({
+    secret : sessionSecret,
+    resave : false,
+    saveUninitialized: true
+}))
 
-app.use('/',userRouter);
+const userRouter = require('./routes/userRoutes') 
+const adminRouter = require('./routes/adminRoutes')
+const path = require('path')
 
-app.get('/admin',(req,res) => {
-    res.send('Hello world')
+mongoose.connect("mongodb://127.0.0.1:27017/ShoeShope")
+.then(()=> {
+    console.log("Connected to the database")
+})
+.catch((err)=>{
+    console.error("Something went wrong !!!",err);
 })
 
 
-app.listen(2000,() => {
+app.use('/static',express.static(path.join(__dirname,'public')))
+
+app.use(express.static('public'))
+app.use(express.static('public/assets'))
+
+app.set('view engine','ejs')
+app.set('views','./views/Users')
+
+
+app.use('/',userRouter);
+app.use('/admin',adminRouter)
+
+
+app.listen(PORT,() => {
     console.log(`ShoeShope is listening at http://localhost:${PORT}`)
 })
