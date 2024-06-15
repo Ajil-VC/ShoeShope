@@ -33,11 +33,10 @@ const loadRegister = async(req,res) => {
 const gen_otp = async(req,res) => {
 
     req.session.formdata = {...req.body}
-    console.log(req.session.formdata)
     const {email} = {...req.body}
 
    
-    const otp = otpGenerator.generate(4,{digits:true,alphabets:false,upperCaseAlphabets:false,specialChars:false})
+    const otp = otpGenerator.generate(5,{digits:true,alphabets:false,upperCaseAlphabets:false,lowerCaseAlphabets:false, specialChars:false})
     try{
 
         await OTP.create({email,otp})
@@ -50,14 +49,14 @@ const gen_otp = async(req,res) => {
                 pass : appPassword
             }
         });
-        transporter.sendMail({
+        await transporter.sendMail({
             from : "fullstackdevelopersince2024@gmail.com",
             to : email,
             subject : "OTP Verification",
-            text : `Your OTP for verification is ${otp}`
+            text : `Your OTP for verification is " ${otp} "`
         });
 
-        res.status(200).render('otpVerification');
+        return res.status(200).render('otpVerification');
         
     }catch(error){
         console.log(error);
@@ -65,47 +64,100 @@ const gen_otp = async(req,res) => {
     }
 }
 
+
 //OTP verification here
 //************************************* */
 const verifyOTP = async(req,res) => {
 
-    /*Consistency with Promises: When using async/await syntax, .exec()
-        ensures that the query returns a promise. This can be more consistent and predictable,
-        particularly when integrating with other promise-based code.*/
-        res.render('otpVerification')
-    console.log(req.body)
-}
+   try{
+    
+    const otp = req.body.otp;
+    const email = req.session.formdata.email;
+    const userDatafromSession = req.session.formdata;
 
-const insertUser = async(req,res) => {
+        /* Using .exec() with Mongoose queries ensures a promise is returned,
+        aligning with modern JavaScript practices for handling asynchronous operations. */
+        const otpRecord = await OTP.findOne({email,otp}).exec()
 
-    const sPassword = await securePassword(req.body.password)
+        //Registering the user 
+        if(otpRecord){        
+            const sPassword = await securePassword(userDatafromSession.password)
 
-    try{
-        const newUser = new User({
-            firstName   : req.body.firstName,
-            lastName    : req.body.lastName,
-            email       : req.body.email,
-            mobile_no   : req.body.mobile_no,
-            password    : sPassword  
-        })
+            try{
+                const newUser = new User({
+                    firstName   : userDatafromSession.firstName,
+                    lastName    : userDatafromSession.lastName,
+                    email       : userDatafromSession.email,
+                    mobile_no   : userDatafromSession.mobile_no,
+                    password    : sPassword  
+                })
 
         
-        const userData = await newUser.save();
+                const userData = await newUser.save();
 
-        if(userData){
-            res.send('Success')
+                if(userData){
+                    return res.status(200).send('successfully registered')
+                }else{
+                    res.send('Something went wrong while registering')
+                }
+            }catch(error){
+                res.status(500).send('Internal server error while registering')
+            }
+            
         }else{
-            res.send('paali')
+            return res.status(400).send('Invalid otp')
         }
+
+   }catch(error){
+    console.log("Error in verifying otp\n",error)
+    return res.status(500).send('Error in verifying otp')
+   }
+}
+
+const loadLogin = (req,res) => {
+
+    try{
+        return res.status(200).render('login')
     }catch(error){
-        console.log(error)
+        console.log("Error while loading login\n",error)
+        return res.status(500).send('Something Went Wrong')
+    }
+}
+const loginUser = async (req,res) => {
+
+
+    try{
+
+        const {email,password} = req.body;
+
+        const userData = await User.findOne({email}).exec();
+        const passwordMatch = await bcrypt.compare(password,userData.password)
+        
+        if(passwordMatch){
+
+            req.session.user_id = userData._id; 
+            req.session.isAuthorised = userData.isAuthorised; 
+            req.session.isBlocked = userData.isBlocked;
+            console.log(req.session)
+
+            return res.status(200).send('User Found')
+        }else{
+            return res.status(404).send('User Not Found')
+        }
+
+    }catch(error){
+        
+        console.log('Error while loggin in',error);
+        return res.status(500).send("Internal server error while logging in")
     }
 }
 
 module.exports = {
     loadRegister,
-    insertUser,
+    loadLogin,
+    loginUser,
     gen_otp,
     gen_otp,
-    verifyOTP
+    verifyOTP,
+  
 }

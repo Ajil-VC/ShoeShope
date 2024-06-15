@@ -12,6 +12,10 @@ userRouter.get('/',(req,res) => {
 //Registration
 userRouter.get('/signup',userController.loadRegister)
 userRouter.post('/signup',userController.gen_otp)
-userRouter.post('/verify-otp',userController.verifyOTP)
-// onclick="window.location.href='/verify-otp'  USE THIS LINE IN OTP BTN"
+userRouter.post('/signup/verify-otp',userController.verifyOTP)
+
+//Login
+userRouter.get('/login',userController.loadLogin)
+userRouter.post('/login',userController.loginUser)
+
 module.exports = userRouter;

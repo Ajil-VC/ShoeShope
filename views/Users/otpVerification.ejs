@@ -10,11 +10,11 @@
                 <div class="row">
                     
                     <h3 style="color: green;">OTP send successfully!! Please Check your email</h3> <br><br>
-                    <h4>Enter the OTP below and proceed...</h4>
-                    <form action="post">
+                    
+                    <form method="post" action="/signup/verify-otp">
 
                         <div class="form-group">
-                            <input type="text" required="" name="firstName" placeholder="First Name">
+                            <input type="text" class="custom-width" required="" name="otp" placeholder="Enter OTP here">
                         </div>
                         <div class="form-group text-center ">
                             <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Submit</button>
