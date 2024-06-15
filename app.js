@@ -31,8 +31,6 @@ app.use(express.static('public'))
 app.use(express.static('public/assets'))
 
 app.set('view engine','ejs')
-app.set('views','./views/Users')
-
 
 app.use('/',userRouter);
 app.use('/admin',adminRouter)

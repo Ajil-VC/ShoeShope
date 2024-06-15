@@ -3,6 +3,13 @@ const userRouter = express.Router();
 
 userRouter.use(express.urlencoded({extended:true}));
 
+userRouter.use((req,res,next) => {
+    
+    req.app.set('views','./views/Users');
+    next();
+
+})
+
 const userController = require('../controllers/userController')
 
 userRouter.get('/',(req,res) => {

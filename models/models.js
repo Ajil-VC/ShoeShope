@@ -1,5 +1,32 @@
 const mongoose = require('mongoose')
 
+const adminSchema = mongoose.Schema({
+    firstName:{
+        type : String,
+        required : true
+    },
+    lastName : {
+        type : String,
+        required : true
+    },
+    email : {
+        type : String,
+        required : true
+    },
+    password : {
+        type : String,
+        required : true
+    },
+    isAuthorised:{
+        type:Number,
+        default:0
+    },
+    image:{
+        type:String,
+    }
+
+})
+
 const userSchema = mongoose.Schema({
 
     firstName:{
@@ -53,9 +80,12 @@ const otpSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-const OTP = mongoose.model('OTP',otpSchema) 
+const OTP = mongoose.model('OTP',otpSchema);
+
+const Admin = mongoose.model('Admin',adminSchema);
 
 module.exports = {
     User,
-    OTP
+    OTP,
+    Admin
 }

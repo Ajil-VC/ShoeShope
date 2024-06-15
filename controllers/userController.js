@@ -89,7 +89,8 @@ const verifyOTP = async(req,res) => {
                     lastName    : userDatafromSession.lastName,
                     email       : userDatafromSession.email,
                     mobile_no   : userDatafromSession.mobile_no,
-                    password    : sPassword  
+                    password    : sPassword,
+                    isVerified  : 1  
                 })
 
         
@@ -156,7 +157,6 @@ module.exports = {
     loadRegister,
     loadLogin,
     loginUser,
-    gen_otp,
     gen_otp,
     verifyOTP,
   
