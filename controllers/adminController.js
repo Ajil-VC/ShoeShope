@@ -1,4 +1,4 @@
-const {Admin} = require('../models/models')
+const {Admin,User} = require('../models/models')
 const bcrypt = require('bcrypt');
 
 const securePassword = async (password) => {
@@ -86,7 +86,20 @@ const loginAdmin = async(req,res) => {
 const loadCustomerList = async(req,res) => {
 
     try{
-        return res.render('customerList')
+
+        //Getting fetched data here
+        const searchQuery = req.query.query;
+    
+        //'.*'+searchQuery+'.*' It will match any document where the field contains the substring
+        const regexPattern = new RegExp('.*'+searchQuery+'.*','i');
+
+        const userData = await User.find({firstName:regexPattern})
+        if(userData){
+            console.log(userData)
+        }else{
+            console.log("Error while taking user data")
+        }
+        res.render('customerList')
     }catch(error){
         console.log("Error While rendering customerList\n",error)
     }
