@@ -5,6 +5,7 @@ adminRouter.use((req,res,next) => {
 
     req.app.set('views','./views/Admin');
     next();
+    
 })
 const adminController = require('../controllers/adminController')
 
@@ -13,6 +14,7 @@ adminRouter.post('/signup',adminController.adminRegistration)
 
 adminRouter.get('/login',adminController.loadLogin)
 adminRouter.post('/login',adminController.loginAdmin)
+adminRouter.get('/customers',adminController.loadCustomerList)
 
 
 module.exports = adminRouter;

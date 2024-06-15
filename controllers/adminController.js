@@ -70,7 +70,7 @@ const loginAdmin = async(req,res) => {
         if(passwordMatch){
             req.session.admin_id = adminData._id; 
             req.session.isAuthorised = adminData.isAuthorised; 
-            return res.status(200).send('Admin Found')
+            return res.status(200).render('dashboard')
         }else{
             return res.status(404).send('Email or Password Incorrect')
         }
@@ -83,8 +83,18 @@ const loginAdmin = async(req,res) => {
 
 }
 
+const loadCustomerList = async(req,res) => {
+
+    try{
+        return res.render('customerList')
+    }catch(error){
+        console.log("Error While rendering customerList\n",error)
+    }
+}
+
 module.exports = {
     adminRegistration,
     loadLogin,
-    loginAdmin
+    loginAdmin,
+    loadCustomerList
 }
