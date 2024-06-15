@@ -11,7 +11,8 @@ const adminController = require('../controllers/adminController')
 // Admin Signup done by postman
 adminRouter.post('/signup',adminController.adminRegistration)
 
-adminRouter.get('/',adminController.loadLogin)
+adminRouter.get('/login',adminController.loadLogin)
+adminRouter.post('/login',adminController.loginAdmin)
 
 
 module.exports = adminRouter;

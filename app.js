@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 const session = require('express-session')
+const morgan = require('morgan')
 
 const {PORT,sessionSecret} = require('./config/config')
 
 const express = require('express')
 const app = express();
+
+app.use(morgan('dev'))
 
 app.use(session({
     secret : sessionSecret,
@@ -25,10 +28,10 @@ mongoose.connect("mongodb://127.0.0.1:27017/ShoeShope")
 })
 
 
-app.use('/static',express.static(path.join(__dirname,'public')))
+app.use(express.static(path.join(__dirname,'public')))
 
-app.use(express.static('public'))
-app.use(express.static('public/assets'))
+// app.use(express.static('public'))
+// app.use(express.static('public/assets'))
 
 app.set('view engine','ejs')
 

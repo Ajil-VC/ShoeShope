@@ -55,7 +55,36 @@ const  loadLogin = async(req,res) => {
     }
 }
 
+const loginAdmin = async(req,res) => {
+
+    try{
+
+        const {email,password} = req.body;
+
+        const adminData = await Admin.findOne({email}).exec();
+        if(!adminData){
+            return res.status(404).send('Admin not found')
+        }
+        const passwordMatch = await bcrypt.compare(password,adminData.password)
+        
+        if(passwordMatch){
+            req.session.admin_id = adminData._id; 
+            req.session.isAuthorised = adminData.isAuthorised; 
+            return res.status(200).send('Admin Found')
+        }else{
+            return res.status(404).send('Email or Password Incorrect')
+        }
+
+    }catch(error){
+        
+        console.log('Error while Admin loggin in',error);
+        return res.status(500).send("Internal server error while Admin login")
+    }
+
+}
+
 module.exports = {
     adminRegistration,
-    loadLogin
+    loadLogin,
+    loginAdmin
 }
