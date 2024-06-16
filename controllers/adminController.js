@@ -89,19 +89,30 @@ const loadCustomerList = async(req,res) => {
 
         //Getting fetched data here
         const searchQuery = req.query.query;
-    
-        //'.*'+searchQuery+'.*' It will match any document where the field contains the substring
-        const regexPattern = new RegExp('.*'+searchQuery+'.*','i');
+        console.log(typeof searchQuery)
 
-        const userData = await User.find({firstName:regexPattern})
-        if(userData){
-            console.log(userData)
+        if(typeof searchQuery === "undefined"){
+
+            //If you don't provide .exec() at the end of a Mongoose query, Mongoose will still execute the query, but it won't return a promise immediately. Instead, it will return a Mongoose Query object, which allows for further chaining of query methods before execution.
+            const userData = await User.find({ isVerified : 1 }).exec();
+            return res.status(200).render('customerList',{users:userData});
         }else{
-            console.log("Error while taking user data")
+
+            //'.*'+searchQuery+'.*' It will match any document where the field contains the substring and i stands for caseinsensitive
+            const regexPattern = new RegExp('.*'+searchQuery+'.*','i');
+            const userData = await User.find({firstName : regexPattern}).exec();
+
+            return res.json(userData)
+
         }
-        res.render('customerList')
+            
+
+
+
+        
     }catch(error){
         console.log("Error While rendering customerList\n",error)
+        return res.status(500).send('Server Error whil taking customer list',error)
     }
 }
 

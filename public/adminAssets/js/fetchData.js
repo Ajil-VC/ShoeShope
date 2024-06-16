@@ -1,4 +1,5 @@
 
+const users = document.getElementById('Users')
 
 function fetchData(query){
 
@@ -7,14 +8,14 @@ function fetchData(query){
     if(!response.ok){
         throw new Error("Network response was not ok")
     }
-    console.log("Hello there")
-    // return response.json();
+
+    return response.json();
 })
 .then(data => {
     console.log('data recieved : ',data)
 })
 .catch(error => {
-    console.error("There was a problem with the fetch operation",error)
+    console.log("There was a problem with the fetch operation",error)
 });
 
 }
@@ -26,3 +27,4 @@ customerSearch.addEventListener('input',(event) => {
     const query = event.target.value;
     fetchData(query)
 })
+
