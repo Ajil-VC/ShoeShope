@@ -51,30 +51,46 @@
                             <tbody id="UsersTable" >
 
 
-                                <!-- <tr>
-                                    <td width="40%">
-                                        <a href="#" class="itemside">
-                                            <div class="left">
-                                                <img src="/adminAssets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                            </div>
-                                            <div class="info pl-3">
 
-                                                    <h6 class="mb-0 title">asdf</h6>
-                                             
-                                                <small class="text-muted">Seller ID: #439</small>
-                                            </div>
-                                        </a>
-                                    </td>
-                                    <td>eleanor2022@example.com</td>
-                                 
-                                    <td>08.07.2022</td>
-                                    <td class="text-end">
-                                        <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">Block</a>
-                                        <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15 DangerRed">Delete</a>
-                                    </td>
-                                </tr> -->
+                                <!--Is there any problem if I set the user data got from nodejs while rendering the page
+                                to a variable from here inorder to access to the frontend js to fetch and block,
+                                unblock or delete the user-->
+                                <script>
+                                    let user = JSON.parse('<%- JSON.stringify(user) %>');
+                                </script>
 
                                 
+
+                            <% if(user.length !==0){ %>
+                                <%console.log(user[0])%>
+                                <% for(let i = 0 ; i < user.length ; i++) { %>
+                                    
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/adminAssets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
+                                                </div>
+                                                <div class="info pl-3">
+    
+                                                        <h6 class="mb-0 title"><%=user[i].firstName%> <%=user[i].lastName%></h6>
+                                                 
+                                                    <small class="text-muted"><%=user[i].email%></small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td><%=user[i].mobile_no%></td>
+                                     
+                                        <td><%=user[i].createdAt%></td>
+                                        <td class="text-end">
+                                            <a href="#" data-block-btn="<%=i%>" class="btn btn-sm btn-brand rounded font-sm mt-15 BlockBtn">Block</a>
+                                            <a href="#" data-delete-btn="<%=i%>" class="btn btn-sm btn-brand rounded font-sm mt-15 DangerRed DeleteBtn">Delete</a>
+                                        </td>
+                                    </tr> 
+
+                                <% } %>
+
+                            <% } %>
     
 
                             </tbody>
@@ -85,12 +101,24 @@
             <div class="pagination-area mt-15 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+
+                        <!-- totalPages : totalPages, currentPage : page -->
+                         <% for(let i = 1 ; i <= totalPages ; i++){  %>
+                            
+                            <% if(i == currentPage){ %>
+                                
+                                <li class="page-item active"><a class="page-link" href="#"><%=i%></a></li>
+
+                            <% }else{ %>
+
+                                <li class="page-item"><a class="page-link" href="#"><%=i%></a></li>
+
+                            <% } %>
+
+                         <% } %>
+                         <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                     
+
                     </ul>
                 </nav>
             </div>
