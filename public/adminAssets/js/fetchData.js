@@ -50,8 +50,32 @@ function deletUser(userID){
 
 
 
+const btnForAddBrand = document.getElementById('btnForAddBrand');
+btnForAddBrand.addEventListener('click',() => {
+    
+    const inputForBrand = document.getElementById('inputForBrand').value ;
+    if(inputForBrand){
+        
+        fetch(`http://localhost:2000/admin/category/?brand=${inputForBrand}`, {method : 'post'})
+        .then(response => {
 
+            if(!response.ok){
+                throw new Error("Network reponse was not ok")
+            }
 
+            return response.json();
+        })
+        .then(data => {
+
+            console.log('data recieved : ',data)
+                             
+        })
+        .catch(error => {
+            console.log("There was a problem while adding brand fetch operation",error)
+        });
+    
+    }
+})
 
 
 

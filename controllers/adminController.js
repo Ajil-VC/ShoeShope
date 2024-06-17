@@ -1,4 +1,4 @@
-const {Admin,User} = require('../models/models')
+const {Admin,User,Category,Brand} = require('../models/models')
 const bcrypt = require('bcrypt');
 
 const securePassword = async (password) => {
@@ -171,11 +171,49 @@ const deleteUser = async (req,res) => {
 
 }
 
+
+const loadCategory = async(req,res) => {
+
+    try{
+        const brands = await Brand.find({});
+     
+        return res.status(200).render('categories',{brands});
+
+    }catch(error){
+
+        console.log("Couldn't load category page");
+        return res.status(500).send("Couldn't load category page")
+    }
+}
+
+const addBrand = async (req,res) => {
+
+    const newBrand = req.query.brand;
+  
+    try{
+
+        await new Brand({
+            name : newBrand
+        }).save()
+        
+
+        console.log("Added Successfully");
+
+    }catch(error){
+
+        console.log('Error while adding new Brand',error);
+        return res.status(500).send("Error while adding new Brand");
+
+    }
+}
+
 module.exports = {
     adminRegistration,
     loadLogin,
     loginAdmin,
     loadCustomerList,
     blockOrUnblockUser,
-    deleteUser
+    deleteUser,
+    loadCategory,
+    addBrand
 }

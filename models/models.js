@@ -73,6 +73,33 @@ const userSchema = mongoose.Schema({
 
 }, {timestamps : true});
 
+const categorySchema = mongoose.Schema({
+
+    name : {
+        type : String,
+        required : true
+    },
+    isActive : {
+        type : Number,
+        default : 1
+    },
+    description : {
+        type : String,
+    }
+});
+
+const brandSchema = mongoose.Schema({
+
+    name : {
+        type : String,
+        required : true
+    },
+    image : {
+
+        type : String
+    }
+})
+
 const otpSchema = new mongoose.Schema({
     email: {type:String , required : true},
     otp: {type:String , required : true},
@@ -84,8 +111,13 @@ const OTP = mongoose.model('OTP',otpSchema);
 
 const Admin = mongoose.model('Admin',adminSchema);
 
+const Category = mongoose.model('Category',categorySchema);
+const Brand = mongoose.model('Brand',brandSchema)
+
 module.exports = {
     User,
     OTP,
-    Admin
+    Admin,
+    Category,
+    Brand
 }
