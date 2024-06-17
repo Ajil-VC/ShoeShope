@@ -52,12 +52,7 @@
 
 
 
-                                <!--Is there any problem if I set the user data got from nodejs while rendering the page
-                                to a variable from here inorder to access to the frontend js to fetch and block,
-                                unblock or delete the user-->
-                                <script>
-                                    let user = JSON.parse('<%- JSON.stringify(user) %>');
-                                </script>
+    
 
                                 
 
@@ -85,11 +80,11 @@
                                         
                                         <td class="text-end">
                                             <% if(!user[i].isBlocked){ %>
-                                                <a href="#" data-block-btn="<%=i%>" class="btn btn-sm blockBtn rounded font-sm mt-15 BlockBtn">Block</a>
+                                                <a href="#" onclick="blockUser('<%= user[i]._id %>')" class="btn btn-sm blockBtn rounded font-sm mt-15 BlockBtn">Block</a>
                                             <% }else{ %>
-                                                <a href="#" data-block-btn="<%=i%>" class="btn btn-sm unblockBtn rounded font-sm mt-15 BlockBtn">Unblock</a>
+                                                <a href="#" onclick="blockUser('<%= user[i]._id %>')" class="btn btn-sm unblockBtn rounded font-sm mt-15 BlockBtn">Unblock</a>
                                             <% } %>
-                                            <a href="#" data-delete-btn="<%=i%>" class="btn btn-sm btn-brand rounded font-sm mt-15 DangerRed DeleteBtn">Delete</a>
+                                            <a href="#" onclick="deletUser('<%= user[i]._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 DangerRed DeleteBtn">Delete</a>
                                         </td>
                                     </tr> 
 

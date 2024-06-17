@@ -1,10 +1,5 @@
 
-function blockUser(btnValue){
-    console.log("Fetchdata Function working")
-    console.log(user[btnValue]);
-    console.log(user);
-
-    const userID = user[btnValue]._id;
+function blockUser(userID){
     
     fetch(`http://localhost:2000/admin/customers/?id=${userID}`, {method : 'PATCH'})
     .then(response => {
@@ -26,55 +21,33 @@ function blockUser(btnValue){
 
 
 
-document.querySelectorAll('.BlockBtn').forEach(button => {
-
-    button.addEventListener('click',(event) => {
-
-        event.preventDefault();
-        const blockBtn = event.currentTarget.dataset.blockBtn; 
-        console.log(blockBtn)
-
-        blockUser(blockBtn);
-    })
-})
-
-function deletUser(btnValue){
+function deletUser(userID){
 
     console.log("Inside delete user");
-    const userID = user[btnValue]._id;
-    console.log("HElloo",userID)
 
-    fetch( `http://localhost:2000/admin/customers/?id=${userID}`, {method : 'delete'} )
-    .then(response => {
+    if(confirm("Are you sure you want to delete this user??")){
+        
+        fetch( `http://localhost:2000/admin/customers/?id=${userID}`, {method : 'delete'} )
+        .then(response => {
 
-        if(!response.ok){
-            throw new Error("Network response was not ok")
-        }
+            if(!response.ok){
+                throw new Error("Network response was not ok")
+            }
 
-        return response.json();
-    })
-    .then(data => {
+            return response.json();
+        })
+        .then(data => {
 
-        console.log('data recieved : ',data)
+            console.log('data recieved : ',data)
                              
-    })
-    .catch(error => {
-        console.log("There was a problem with the Deleting fetch operation",error)
-    });
-    
-    
+        })
+        .catch(error => {
+            console.log("There was a problem with the Deleting fetch operation",error)
+        });
+       
+    }  
 }
 
-document.querySelectorAll('.DeleteBtn').forEach(button => {
-
-    button.addEventListener('click',(event) => {
-
-        event.preventDefault();
-        const deleteBtn = event.currentTarget.dataset.deleteBtn;
-        
-        deletUser(deleteBtn)
-    })
-})
 
 
 
