@@ -1,4 +1,5 @@
-function fetchData(btnValue){
+
+function blockUser(btnValue){
     console.log("Fetchdata Function working")
     console.log(user[btnValue]);
     console.log(user);
@@ -33,10 +34,47 @@ document.querySelectorAll('.BlockBtn').forEach(button => {
         const blockBtn = event.currentTarget.dataset.blockBtn; 
         console.log(blockBtn)
 
-        fetchData(blockBtn);
+        blockUser(blockBtn);
     })
 })
 
+function deletUser(btnValue){
+
+    console.log("Inside delete user");
+    const userID = user[btnValue]._id;
+    console.log("HElloo",userID)
+
+    fetch( `http://localhost:2000/admin/customers/?id=${userID}`, {method : 'delete'} )
+    .then(response => {
+
+        if(!response.ok){
+            throw new Error("Network response was not ok")
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        console.log('data recieved : ',data)
+                             
+    })
+    .catch(error => {
+        console.log("There was a problem with the Deleting fetch operation",error)
+    });
+    
+    
+}
+
+document.querySelectorAll('.DeleteBtn').forEach(button => {
+
+    button.addEventListener('click',(event) => {
+
+        event.preventDefault();
+        const deleteBtn = event.currentTarget.dataset.deleteBtn;
+        
+        deletUser(deleteBtn)
+    })
+})
 
 
 

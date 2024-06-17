@@ -83,10 +83,9 @@ const loginAdmin = async(req,res) => {
 
 }
 
+
+
 const loadCustomerList = async(req,res) => {
-
-
-        console.log("hohoho",req.query.id,"hahaha")
 
 
     const page = parseInt(req.query.page) || 1 ;
@@ -127,8 +126,48 @@ const loadCustomerList = async(req,res) => {
     }
 }
 
-const blockOrUnblockUser = () => {
+const blockOrUnblockUser = async (req,res) => {
 
+
+
+    const idToBlockorUnblock = req.query.id;
+    try{
+
+        const userData = await User.findOne({_id:idToBlockorUnblock})
+        if(!userData.isBlocked){
+            await User.updateOne({_id:idToBlockorUnblock},{$set:{isBlocked:1}});
+            //should send the json data to frontend and update it there.
+            
+        }else{
+            await User.updateOne({_id:idToBlockorUnblock},{$set:{isBlocked:0}})
+            //should send the json data to frontend and update it there.    
+        }
+     
+
+    }catch(error){
+        console.log('Internal Error while blocking or unblocking ',error)
+        return res.status(500).send("Internal Error while blocking or unblocking")
+    }
+
+}
+
+const deleteUser = async (req,res) => {
+    
+    const idToDelete = req.query.id;
+
+    try{
+
+        
+        await User.deleteOne({_id : idToDelete})
+        console.log("User Deleted successfully ")
+
+        //should send the json data to frontend and update it there.
+     
+
+    }catch(error){
+        console.log('Internal Error while deleting user',error)
+        return res.status(500).send("Internal Error while deleting user")
+    }
 
 }
 
@@ -136,5 +175,7 @@ module.exports = {
     adminRegistration,
     loadLogin,
     loginAdmin,
-    loadCustomerList
+    loadCustomerList,
+    blockOrUnblockUser,
+    deleteUser
 }

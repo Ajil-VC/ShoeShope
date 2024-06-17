@@ -15,6 +15,8 @@ adminRouter.post('/signup',adminController.adminRegistration)
 adminRouter.get('/login',adminController.loadLogin)
 adminRouter.post('/login',adminController.loginAdmin)
 adminRouter.get('/customers',adminController.loadCustomerList)
+adminRouter.patch('/customers',adminController.blockOrUnblockUser)
+adminRouter.delete('/customers',adminController.deleteUser)
 
 
 

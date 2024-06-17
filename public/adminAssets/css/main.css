@@ -419,7 +419,19 @@ body {
 .DangerRed{
   background-color: red !important; 
 }
-
+.blockBtn{
+  border: 0;
+  color: #fff;
+  background-color: orange;
+  width: 70px;
+}
+.unblockBtn{
+  border: 0;
+  color: #fff;
+  background-color: green;
+  width: 70px;
+}
+  
 
 /* --------------------- titles ---------------------- */
 .section-heading {

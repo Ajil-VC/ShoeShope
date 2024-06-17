@@ -82,8 +82,13 @@
                                         <td><%=user[i].mobile_no%></td>
                                      
                                         <td><%=user[i].createdAt%></td>
+                                        
                                         <td class="text-end">
-                                            <a href="#" data-block-btn="<%=i%>" class="btn btn-sm btn-brand rounded font-sm mt-15 BlockBtn">Block</a>
+                                            <% if(!user[i].isBlocked){ %>
+                                                <a href="#" data-block-btn="<%=i%>" class="btn btn-sm blockBtn rounded font-sm mt-15 BlockBtn">Block</a>
+                                            <% }else{ %>
+                                                <a href="#" data-block-btn="<%=i%>" class="btn btn-sm unblockBtn rounded font-sm mt-15 BlockBtn">Unblock</a>
+                                            <% } %>
                                             <a href="#" data-delete-btn="<%=i%>" class="btn btn-sm btn-brand rounded font-sm mt-15 DangerRed DeleteBtn">Delete</a>
                                         </td>
                                     </tr> 
