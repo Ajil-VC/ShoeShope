@@ -1,4 +1,4 @@
-const {Admin,User,Category,Brand} = require('../models/models')
+const {Admin,User,Category,Brand,Color,Product} = require('../models/models')
 const bcrypt = require('bcrypt');
 
 const securePassword = async (password) => {
@@ -70,7 +70,7 @@ const loginAdmin = async(req,res) => {
         if(passwordMatch){
             req.session.admin_id = adminData._id; 
             req.session.isAuthorised = adminData.isAuthorised; 
-            return res.status(200).render('dashboard')
+            return res.status(200).redirect('dashboard')
         }else{
             return res.status(404).send('Email or Password Incorrect')
         }
@@ -226,6 +226,31 @@ const addBrandOrCategory = async (req,res) => {
 
     }
 
+
+    if(req.query.color){
+
+        const newBrand = req.query.brand;
+
+        try{
+
+            // await new Brand({
+            //     name : newBrand
+            // }).save()
+            
+    
+            console.log("Added Successfully Give a sweet alert here");
+            return;
+    
+        }catch(error){
+    
+            console.log('Error while adding new Brand\n');
+            return res.status(500).send("Error while adding new Brand");
+    
+        }
+
+    }
+
+
     if(req.body.category.trim() && req.body.description.trim()){
 
         const category = req.body.category.trim() ;
@@ -282,6 +307,63 @@ const softDeleteCategory = async(req,res) => {
 
 }
 
+
+const loadAllProducts = async (req,res) => {
+
+    try{
+
+        return res.render('productslist')
+
+    }catch(error){
+
+        console.log('Error while loading products\n',error);
+        return res.status(500).send("Error while loading products")
+    }
+}
+
+const loadAddNewProduct = async(req,res) => {
+
+    try{
+
+        return res.status(200).render('add-new-product')
+
+    }catch(error){
+
+        console.log("Internal Error while loading addNewProduct\n",error);
+        return res.status(500).send('Error while loading addNewProduct');
+    }
+
+}
+
+const addNewProduct = async(req,res) => {
+
+    const { productName,description,regularPrice } = req.body;
+    const {salePrice,stockQuantity,category,brand} = req.body;
+
+    try{
+        //Add modal asking "Update details instead of creating duplicate."
+        const newProduct = new Product({
+
+            ProductName : productName,
+            Description : description,
+            regularPrice: regularPrice,
+            salePrice   : salePrice,
+            stockQuantity: stockQuantity,
+            Category    : category,
+            Brand   : brand
+        });
+
+        await newProduct.save();
+        return res.status(201).send("New Product added successfully");
+
+    }catch(error){
+
+        console.log('Internal Error While Adding new product\n',error);
+        return res.status(500).send('Internal Error While Adding new product');
+    }
+}
+
+
 module.exports = {
     adminRegistration,
     loadLogin,
@@ -292,5 +374,8 @@ module.exports = {
     deleteUser,
     loadCategory,
     addBrandOrCategory,
-    softDeleteCategory
+    softDeleteCategory,
+    loadAllProducts,
+    loadAddNewProduct,
+    addNewProduct
 }

@@ -8,6 +8,7 @@
 
 
         <section class="content-main">
+
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Brand </h2>
@@ -15,6 +16,7 @@
                 </div>
               
             </div>
+            
             <header class="card card-body mb-4">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
@@ -28,6 +30,8 @@
                     </div>
                 </div>
             </header> <!-- card-header end// -->
+
+
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Categories </h2>
@@ -93,12 +97,22 @@
                                                 <td>
                                                     <% if(!categoryDetails[i].isActive){ %>
 
-                                                        <input type="checkbox" id="productListToggle" class="checkbox" onclick="listCategory('<%=categoryDetails[i]._id%>')" >
+                                                        <!-- <input type="checkbox" id="productListToggle" class="checkbox" onclick="listCategory('<%=categoryDetails[i]._id%>')" > -->
+                                                        <div class="col col-check flex-grow-0">
+                                                            <div class="form-check ms-2">
+                                                                <input class="form-check-input checkbox" type="checkbox" value="" id="productListToggle" onclick="listCategory('<%=categoryDetails[i]._id%>')" >
+                                                            </div>
+                                                        </div>
                                                         <label for="productListToggle" class="toggle"></label>
 
                                                     <% }else{ %>
-
-                                                        <input type="checkbox" id="productListToggle" checked class="checkbox" onclick="listCategory('<%=categoryDetails[i]._id%>')" >
+                                                        
+                                                        <div class="col col-check flex-grow-0">
+                                                            <div class="form-check ms-2">
+                                                                <input class="form-check-input checkbox" type="checkbox"  checked value="" id="productListToggle" onclick="listCategory('<%=categoryDetails[i]._id%>')" >
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <label for="productListToggle" class="toggle"></label>
                                             
 

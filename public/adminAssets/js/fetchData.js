@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+
+
 
 function blockUser(userID){
     
@@ -49,33 +53,41 @@ function deletUser(userID){
 }
 
 
-
 const btnForAddBrand = document.getElementById('btnForAddBrand');
-btnForAddBrand.addEventListener('click',() => {
+if(btnForAddBrand){
+
+    btnForAddBrand.addEventListener('click',() => {
     
-    const inputForBrand = document.getElementById('inputForBrand').value ;
-    if(inputForBrand){
+        const inputForBrand = document.getElementById('inputForBrand').value ;
+        if(inputForBrand){
+            
+            fetch(`http://localhost:2000/admin/category/?brand=${inputForBrand}`, {method : 'post'})
+            .then(response => {
+    
+                if(!response.ok){
+                    throw new Error("Network reponse was not ok")
+                }
+    
+                return response.json();
+            })
+            .then(data => {
+    
+                console.log('data recieved : ',data)
+                                 
+            })
+            .catch(error => {
+                console.log("There was a problem while adding brand fetch operation",error)
+            });
         
-        fetch(`http://localhost:2000/admin/category/?brand=${inputForBrand}`, {method : 'post'})
-        .then(response => {
-
-            if(!response.ok){
-                throw new Error("Network reponse was not ok")
-            }
-
-            return response.json();
-        })
-        .then(data => {
-
-            console.log('data recieved : ',data)
-                             
-        })
-        .catch(error => {
-            console.log("There was a problem while adding brand fetch operation",error)
-        });
+        }
+    })
     
-    }
-})
+
+
+}
+
+
+
 
 
 function listCategory(categoryID){
@@ -97,6 +109,49 @@ function listCategory(categoryID){
             console.log("There was a problem while performing listcategory fetch operation",error)
         });
 }
+
+
+
+
+
+    const publishBtnForAddProduct = document.getElementById('publishBtnForAddProduct');
+    if(publishBtnForAddProduct){
+
+        const form = document.getElementById('formForAddNewProduct');
+
+        publishBtnForAddProduct.addEventListener('click',() => {
+
+            const category = document.getElementById('category').value;
+            const brand = document.getElementById('brand').value;
+
+            //Creating a hidden field to add to the form.
+            const hiddenCategory = document.createElement('input');
+            const hiddenBrand = document.createElement('input');
+
+            //Adding the hidden field to the form.
+            hiddenCategory.type = 'hidden';
+            hiddenCategory.name = 'category';
+            hiddenCategory.value = category;
+            form.appendChild(hiddenCategory);
+
+            hiddenBrand.type = 'hidden';
+            hiddenBrand.name = 'brand';
+            hiddenBrand.value = brand;
+            form.appendChild(hiddenBrand);
+
+            form.submit();
+        })
+    
+    }
+    
+
+
+
+
+
+});//This close is for the begginiiing of the script " document.addEventListener('DOMContentLoaded', () => { "
+
+
 
 
 // function clearExistingRows() {

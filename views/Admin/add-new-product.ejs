@@ -1,0 +1,117 @@
+<%- include("../layouts/adminHeader.ejs")  %>
+    
+<!--Aside Here-->
+<%- include("../layouts/adminAside.ejs")  %>
+
+<!--Head with search bar and other options Here-->
+<%- include("../layouts/adminHead.ejs")  %>
+
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div>
+                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Cancel</button>
+                            <button class="btn btn-md rounded font-sm hover-up" id="publishBtnForAddProduct" >Publish</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" method="post" >
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Product Name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="product_name" name="productName" >
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" name="description" ></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label class="form-label">Regular price</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="₹" name="regularPrice" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label class="form-label">Sale price</label>
+                                            <input placeholder="₹" name="salePrice" type="text" class="form-control">
+                                        </div>
+                                    </div>
+
+                                
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label class="form-label">Stock Quantity</label>
+                                            <input placeholder="Enter the Quantity" name="stockQuantity" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                             
+                          
+                            </form>
+                        </div>
+                    </div> <!-- card end// -->
+                    
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="assets/imgs/theme/upload.svg" alt="">
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Organization</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gx-2">
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" name="category" id="category" >
+                                        <option> Automobiles </option>
+                                        <option> Home items </option>
+                                        <option> Electronics </option>
+                                        <option> Smartphones </option>
+                                        <option> Sport items </option>
+                                        <option> Baby and Tous </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Brand</label>
+                                    <select class="form-select" name="brand" id="brand" >
+                                        <option> Nissan </option>
+                                        <option> Honda </option>
+                                        <option> Mercedes </option>
+                                        <option> Chevrolet </option>
+                                    </select>
+                                </div>
+                            
+                            </div> <!-- row.// -->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </section> <!-- content-main end// -->
+
+
+
+<%- include("../layouts/adminFooter.ejs")  %>
