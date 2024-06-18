@@ -83,6 +83,19 @@ const loginAdmin = async(req,res) => {
 
 }
 
+const loadDashboard = (req,res) => {
+
+    try{
+
+        return res.status(200).render('dashboard');
+
+    }catch(error){
+
+        console.log("Error while rendering dashboard\n",error);
+        return res.status(500).send("Error while rendering dashboard")
+    }
+}
+
 
 
 const loadCustomerList = async(req,res) => {
@@ -175,9 +188,10 @@ const deleteUser = async (req,res) => {
 const loadCategory = async(req,res) => {
 
     try{
-        const brands = await Brand.find({});
+        const brands = await Brand.find({}).exec();
+        const categoryDetails = await Category.find({}).exec();
      
-        return res.status(200).render('categories',{brands});
+        return res.status(200).render('categories',{brands,categoryDetails});
 
     }catch(error){
 
@@ -186,34 +200,97 @@ const loadCategory = async(req,res) => {
     }
 }
 
-const addBrand = async (req,res) => {
+const addBrandOrCategory = async (req,res) => {
 
-    const newBrand = req.query.brand;
-  
+ 
+    if(req.query.brand){
+
+        const newBrand = req.query.brand;
+
+        try{
+
+            await new Brand({
+                name : newBrand
+            }).save()
+            
+    
+            console.log("Added Successfully Give a sweet alert here");
+            return;
+    
+        }catch(error){
+    
+            console.log('Error while adding new Brand\n');
+            return res.status(500).send("Error while adding new Brand");
+    
+        }
+
+    }
+
+    if(req.body.category.trim() && req.body.description.trim()){
+
+        const category = req.body.category.trim() ;
+        const description =  req.body.description.trim() ;
+
+        try{
+
+            const newCategory = await new Category({
+
+                name : category,
+                description : description
+            })
+            await newCategory.save();
+            const categoryDetails = await Category.find({});
+            return res.status(201).render('categories',{categoryDetails})
+
+        }catch(error){
+
+            console.log("Error occured while creating Category\n",error)
+            return res.status(500).send("Category already saved in database.")
+        }
+        
+    }else{
+      
+    }
+    
+}
+
+const softDeleteCategory = async(req,res) => {
+
+    const itemID = req.query.categoryID;
     try{
 
-        await new Brand({
-            name : newBrand
-        }).save()
+        const category = await Category.findOne({_id:itemID}).exec();
         
+        if(category.isActive){
+            
+            await Category.updateOne({_id:itemID},{$set:{isActive : 0}}).exec();
+            const categoryDetails = await Category.find({});
+            return res.status(200).render('categories',{categoryDetails})
+        }else{
 
-        console.log("Added Successfully");
+            await Category.updateOne({_id:itemID},{$set:{isActive : 1}}).exec();
+            const categoryDetails = await Category.find({});
+            return res.status(200).render('categories',{categoryDetails})
+
+        }
 
     }catch(error){
 
-        console.log('Error while adding new Brand',error);
-        return res.status(500).send("Error while adding new Brand");
-
+        console.log("Error while performing softdeletion",error);
+        return res.status(500).send('Error while performing softdeletion');
     }
+
 }
 
 module.exports = {
     adminRegistration,
     loadLogin,
     loginAdmin,
+    loadDashboard,
     loadCustomerList,
     blockOrUnblockUser,
     deleteUser,
     loadCategory,
-    addBrand
+    addBrandOrCategory,
+    softDeleteCategory
 }

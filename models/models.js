@@ -85,6 +85,7 @@ const categorySchema = mongoose.Schema({
     },
     description : {
         type : String,
+        required : true
     }
 });
 
@@ -106,6 +107,8 @@ const otpSchema = new mongoose.Schema({
     createdAt: { type: Date, expires: '1m', default: Date.now }
 });
 
+
+
 const User = mongoose.model('User', userSchema);
 const OTP = mongoose.model('OTP',otpSchema);
 
@@ -113,6 +116,8 @@ const Admin = mongoose.model('Admin',adminSchema);
 
 const Category = mongoose.model('Category',categorySchema);
 const Brand = mongoose.model('Brand',brandSchema)
+
+
 
 module.exports = {
     User,

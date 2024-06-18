@@ -78,6 +78,26 @@ btnForAddBrand.addEventListener('click',() => {
 })
 
 
+function listCategory(categoryID){
+     
+        fetch(`http://localhost:2000/admin/category/?categoryID=${categoryID}`, {method : 'PATCH'})
+        .then(response => {
+            if(!response.ok){
+
+                throw new Error("Network response was no ok for patch request of listcategory")
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            console.log('data recieved : ',data)
+                             
+        })
+        .catch(error => {
+            console.log("There was a problem while performing listcategory fetch operation",error)
+        });
+}
+
 
 // function clearExistingRows() {
 //     $('#UsersTable').empty(); // Remove all child elements from the element with ID 'Users'
