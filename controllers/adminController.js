@@ -1,4 +1,4 @@
-const {Admin,User,Category,Brand,Color,Product} = require('../models/models')
+const {Admin,User,Category,Brand,Product} = require('../models/models')
 const bcrypt = require('bcrypt');
 
 const securePassword = async (password) => {
@@ -324,8 +324,11 @@ const loadAllProducts = async (req,res) => {
 const loadAddNewProduct = async(req,res) => {
 
     try{
+        
+        const categories = await Category.find({}).exec();
+        const brand = await Brand.find({}).exec();
 
-        return res.status(200).render('add-new-product')
+        return res.status(200).render('add-new-product',{categories,brand})
 
     }catch(error){
 

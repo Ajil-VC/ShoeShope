@@ -89,9 +89,8 @@ if(btnForAddBrand){
 
 
 
-
 function listCategory(categoryID){
-     
+
         fetch(`http://localhost:2000/admin/category/?categoryID=${categoryID}`, {method : 'PATCH'})
         .then(response => {
             if(!response.ok){
