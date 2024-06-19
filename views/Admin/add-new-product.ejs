@@ -9,7 +9,7 @@
 
   
   <!-- Modal Start here -->
-  <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -18,26 +18,35 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body"> -->
+        <div class="modal-body">
           
-
             <!--Here is the cropper-->
             <!--===================-->
-/
+
+            <div class="main-container">
+                <div class="img-container" id="imageCroperContainer" >
+                    <!-- <img id="imageCroper" src=""  style="width: 600px;" > -->
+                </div>
+                <button id="btn-crop">Crop</button>
+                <div class="cropped-container">
+                    <img src="" id="output">
+                </div>
+            </div>
+
             <!--Cropper ends here-->
             <!--===================-->
 
 
 
 
-     <!--   </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
-  </div>--> <!-- Modal Ends here -->
+  </div> <!-- Modal Ends here -->
 
 
         <section class="content-main">
@@ -57,6 +66,10 @@
                             <h4>Basic</h4>
                         </div>
                         <div class="card-body">
+
+
+
+
                             <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" method="post" enctype='multipart/form-data' >
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
@@ -66,7 +79,12 @@
                                     <label class="form-label">Description</label>
                                     <textarea placeholder="Type here" class="form-control" rows="4" name="description" ></textarea>
                                 </div>
+
                                 <input class="form-control" type="file" id="addFirstProductImage" name="image">
+                                 <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" id="openModalBtn" style="width: 100%;" data-toggle="modal" data-target="#exampleModalCenter">Launch demo modal</button>
+
+                                
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-4">
@@ -93,18 +111,28 @@
                                     </div>
                                     
                                 </div>
-                             
-                          
+                               
                             </form>
+
+
+
                         </div>
                     </div> <!-- card end// -->
                     
                 </div>
                 <div class="col-lg-3">
-                    <div class="card mb-4">
+
+                    <!-- Media Starts here-->
+                    <!-- ============================-->
+                    <!-- ============================-->
+                    <!-- ============================-->
+                            
+                    <!-- <div class="card mb-4">
                         <div class="card-header">
                             <h4>Media</h4>
                         </div>
+
+                        
 
                         <div class="card-body">
                             <div class="input-upload">
@@ -114,13 +142,17 @@
 
                             </div>
                            
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" style="width: 100%;" data-toggle="modal" data-target="#exampleModalCenter">Launch demo modal</button>
-
-
-
                         </div>
-                    </div> <!-- card end// -->
+                    </div> -->
+                    <!-- card end// -->
+
+                    <!--Media ends here ============================-->
+                    <!-- ============================-->
+                    <!-- ============================-->
+
+
+
+                    
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4>Organization</h4>
