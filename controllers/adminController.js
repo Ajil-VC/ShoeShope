@@ -345,9 +345,7 @@ const addNewProduct = async(req,res) => {
 
     try{
         //Add modal asking "Update details instead of creating duplicate."
-        console.log("CheckingFile")
-        console.log(req.body)
-        console.log("CheckingFile",req.file.filename)
+   
         const newProduct = new Product({
             ProductName : productName,
             Description : description,

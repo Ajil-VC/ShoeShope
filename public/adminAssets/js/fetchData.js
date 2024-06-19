@@ -109,54 +109,66 @@ function listCategory(categoryID){
 
 
 
-//Open modal and cropping interface from here
+
 document.addEventListener('DOMContentLoaded', function() {
 
     var openModalBtn = document.getElementById('openModalBtn');
-    openModalBtn.style.display = 'none'
     var imageElement =  document.getElementById('addFirstProductImage');
-    var imageCroper = document.getElementById('imageCroper');
-    
-    console.log(openModalBtn);
-    console.log(imageElement)
-    
+    const imageCroper = document.getElementById('imageCroper');
+
     document.getElementById('addFirstProductImage').addEventListener('change',(e) =>{
 
-        
+            var cropper;
             var file = e.target.files[0];
+        
+           
             if(!file){
            
                 return;
             }
             var reader = new FileReader();
             reader.onload = (event) => {
+              
                 
                 var imageUrl = event.target.result;
-                imageElement.src = imageUrl;
-                openModalBtn.click();
-
-                const imageCroperContainer = document.getElementById('imageCroperContainer');
-                const imageCroper = document.createElement('img');
-                imageCroper.id = "imageCroper";
-                imageCroper.src = imageUrl;
-                imageCroper.style.width = "600px";
-                imageCroperContainer.appendChild(imageCroper)
+    
+                imageElement.src = imageUrl;              
+                imageCroper.src = imageUrl ;
                 
+                openModalBtn.click();//Modal opening
+
+                // const imageCroperContainer = document.getElementById('imageCroperContainer');
+                // const imageCroper = document.createElement('img');
+                // const childOfimageCroperContainer = document.getElementById('imageCroper');
+                // console.log("FIrst",childOfimageCroperContainer)
+                
+                
+                
+                // imageCroper.id = "imageCroper";
+                // imageCroper.src = imageUrl;
+                // imageCroper.style.width = "600px";
+                // imageCroperContainer.appendChild(imageCroper)
+                
+                if(window.cropperInstance){
+                    window.cropperInstance.destroy();
+                }
+                
+
                 // This is for Cropper
-
-                const cropper = new Cropper(imageCroper,{
-                aspectRatio: 1,
-                full: true, // Cover the whole image
-                autoCropArea: false // Allow free expansion
+                window.cropperInstance = new Cropper(imageCroper,{
+                    aspectRatio: 1,
+                    full: true, // Cover the whole image
+                    autoCropArea: false // Allow free expansion
                 })
-    
+                
+                
                 document.querySelector('#btn-crop').addEventListener('click',() => {
-    
-                var croppedImages = cropper.getCroppedCanvas().toDataURL('image/png');
-                document.getElementById('output').src = croppedImages;
-                document.querySelector(".cropped-container").style.display = 'flex';
+                    
+                    var croppedImages = cropper.getCroppedCanvas().toDataURL('image/png');
+                    document.getElementById('output').src = croppedImages;
+                    document.querySelector(".cropped-container").style.display = 'flex';
                 })
-
+                
                 // Cropper Croper ends here
             }
             reader.readAsDataURL(file);

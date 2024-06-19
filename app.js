@@ -41,5 +41,5 @@ app.use('/admin',adminRouter)
 
 
 app.listen(PORT,() => {
-    console.log(`ShoeShope is listening at http://localhost:${PORT}`)
+    console.log(`ShoeShope is listening at http://localhost:${PORT}/admin/login`)
 })
