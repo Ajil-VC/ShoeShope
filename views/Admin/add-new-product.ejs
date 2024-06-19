@@ -7,31 +7,37 @@
 <%- include("../layouts/adminHead.ejs")  %>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Launch demo modal
-  </button>
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- Modal Start here -->
+  <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Crop the Image</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
+        <div class="modal-body"> -->
+          
+
+            <!--Here is the cropper-->
+            <!--===================-->
+/
+            <!--Cropper ends here-->
+            <!--===================-->
+
+
+
+
+     <!--   </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
-  </div>
+  </div>--> <!-- Modal Ends here -->
 
 
         <section class="content-main">
@@ -51,7 +57,7 @@
                             <h4>Basic</h4>
                         </div>
                         <div class="card-body">
-                            <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" method="post" >
+                            <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" method="post" enctype='multipart/form-data' >
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="product_name" name="productName" >
@@ -60,6 +66,7 @@
                                     <label class="form-label">Description</label>
                                     <textarea placeholder="Type here" class="form-control" rows="4" name="description" ></textarea>
                                 </div>
+                                <input class="form-control" type="file" id="addFirstProductImage" name="image">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-4">
@@ -102,10 +109,15 @@
                         <div class="card-body">
                             <div class="input-upload">
                                 <img src="assets/imgs/theme/upload.svg" alt="">
-                                <input class="form-control" type="file">
-                            </div>
 
-                            <button class="btn btn-md rounded font-sm hover-up" style="width: 100%;" id="publishBtnForAddProduct" >Crop Image</button>
+                                <input class="form-control" type="file" id="addFirstProductImage" name="image">
+
+                            </div>
+                           
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" style="width: 100%;" data-toggle="modal" data-target="#exampleModalCenter">Launch demo modal</button>
+
+
 
                         </div>
                     </div> <!-- card end// -->

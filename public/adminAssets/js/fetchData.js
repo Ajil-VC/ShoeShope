@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
 
 
 
@@ -145,10 +144,45 @@ function listCategory(categoryID){
     
 
 
+// document.addEventListener('DOMContentLoaded', function() {
+
+//     //This is for Cropper
+//     // const image = document.getElementById('image');
+//     // const cropper = new Cropper(image,{
+//     //     aspectRatio: 1,
+//     //     full: true, // Cover the whole image
+//     //     autoCropArea: false // Allow free expansion
+//     // })
+    
+//     // document.querySelector('#btn-crop').addEventListener('click',() => {
+    
+//     //     var croppedImages = cropper.getCroppedCanvas().toDataURL('image/png');
+//     //     document.getElementById('output').src = croppedImages;
+//     //     document.querySelector(".cropped-container").style.display = 'flex';
+//     // })
 
 
+//     document.getElementById('addFirstProductImage').addEventListener('change',(e) =>{
 
-});//This close is for the begginiiing of the script " document.addEventListener('DOMContentLoaded', () => { "
+//         var file = e.target.files[0];
+//         if(!file){
+
+//             return;
+//         }
+
+//         var reader = new FileReader();
+//         reader.onload = (event) => {
+
+//             var imageUrl = event.target.result;
+//             document.getElementById('imageToCrop').src = imageUrl;
+//         }
+
+
+//     })
+
+
+// })
+
 
 
 

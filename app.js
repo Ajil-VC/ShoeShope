@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const morgan = require('morgan')
 
+
 const {PORT,sessionSecret} = require('./config/config')
 
 const express = require('express')
@@ -15,9 +16,11 @@ app.use(session({
     saveUninitialized: true
 }))
 
+
 const userRouter = require('./routes/userRoutes') 
 const adminRouter = require('./routes/adminRoutes')
 const path = require('path')
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/ShoeShope")
 .then(()=> {
@@ -30,8 +33,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/ShoeShope")
 
 app.use(express.static(path.join(__dirname,'public')))
 
-// app.use(express.static('public'))
-// app.use(express.static('public/assets'))
 
 app.set('view engine','ejs')
 

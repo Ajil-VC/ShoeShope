@@ -1,5 +1,23 @@
 const express = require('express');
 const adminRouter = express.Router();
+const path = require('path');
+
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+
+    destination: function(req,file,cb){
+
+        cb(null,path.join(__dirname,'../public'))
+    },
+    filename: function(req,file,cb){
+        const name = Date.now()+'_'+file.originalname;
+        cb(null,name)
+    }
+})
+const upload = multer({storage:storage})
+
+
 
 adminRouter.use((req,res,next) => {
 
@@ -26,7 +44,7 @@ adminRouter.patch('/category',adminController.softDeleteCategory);
 
 adminRouter.get('/productslist',adminController.loadAllProducts);
 adminRouter.get('/productslist/add_new_product',adminController.loadAddNewProduct);
-adminRouter.post('/productslist/add_new_product',adminController.addNewProduct);
+adminRouter.post('/productslist/add_new_product',upload.single('image'),adminController.addNewProduct);
 
 
 
