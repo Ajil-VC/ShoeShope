@@ -110,7 +110,8 @@ function listCategory(categoryID){
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    var formDataForAddNewProduct = new FormData();
+    
+    const formDataForAddNewProduct = new FormData();
 
     var openModalBtn = document.getElementById('openModalBtn');
     var chooseimageElement =  document.getElementById('addFirstProductImage');
@@ -122,9 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('formForAddNewProduct');
            
             if(!file){
-           
                 return;
             }
+
             var reader = new FileReader();
             reader.onload = (event) => {
               
@@ -148,35 +149,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     autoCropArea: false // Allow free expansion
                 })
                 
-                
-                document.querySelector('#btn-crop').addEventListener('click',() => { 
-                    
-                   
-                    // var croppedImages = cropperInstance.getCroppedCanvas().toDataURL('image/png'); Delete this line if Blob is worknig
-                    // document.getElementById('output').src = croppedImages; Delete this line if blob is working
-                    var croppedImages = cropperInstance.getCroppedCanvas();
-                    croppedImages.toBlob((blob) => {
-                        if(blob){
-
-                            formDataForAddNewProduct.append('image',blob,'cropedimage.png')
-                        }else{
-
-                            console.log("No blob found")
-                        }
-                    })
-
-                    // document.querySelector(".cropped-container").style.display = 'flex';
-
-                })
-                
-                // Cropper Croper ends here
+   
             }
             reader.readAsDataURL(file);
 
 
     })
+    
+    document.querySelector('#btn-crop').addEventListener('click', () => {
 
-
+    
+        if (window.cropperInstance) {
+            const croppedImages = cropperInstance.getCroppedCanvas();
+            croppedImages.toBlob((blob) => {
+                console.log(blob)
+                console.log(formDataForAddNewProduct)
+                if (!formDataForAddNewProduct.has('image')) {
+                    formDataForAddNewProduct.append('image', blob, 'croppedimage.png');
+                } else {
+                    formDataForAddNewProduct.set('image', blob, 'croppedimage.png');
+                }
+            });
+        }
+    });
+    
 
     
 
@@ -189,11 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const category = document.getElementById('category').value;
             const brand = document.getElementById('brand').value;
-            // const product_name = document.getElementById('product_name').value;
-            // const descriptionOfProduct = document.getElementById('descriptionOfProduct').value; 
-            // const regularPrice = document.getElementById('regularPrice').value;
-            // const salePrice = document.getElementById('salePrice').value;
-            // const stockQuantity = document.getElementById('stockQuantity').value;   
           
             
             Array.from(form.elements).forEach(element => {
@@ -239,19 +230,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                  
             })
             .catch(error => {
-                console.log("There was a problem with submission of add new product operation",error)
+                console.log("There was a problem with submission of add new pRoduct operation",error)
             });
-            // form.submit();
+    
 
         })
     
     }
     
 
-
-
-
-})
+}) //DOMContentLoaded
 
 
 
