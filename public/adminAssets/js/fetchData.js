@@ -113,14 +113,13 @@ function listCategory(categoryID){
 document.addEventListener('DOMContentLoaded', function() {
 
     var openModalBtn = document.getElementById('openModalBtn');
-    var imageElement =  document.getElementById('addFirstProductImage');
+    var chooseimageElement =  document.getElementById('addFirstProductImage');
     const imageCroper = document.getElementById('imageCroper');
 
-    document.getElementById('addFirstProductImage').addEventListener('change',(e) =>{
+    chooseimageElement.addEventListener('change',(e) =>{
 
-            var cropper;
             var file = e.target.files[0];
-        
+            const form = document.getElementById('formForAddNewProduct');
            
             if(!file){
            
@@ -132,29 +131,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 var imageUrl = event.target.result;
     
-                imageElement.src = imageUrl;              
+                chooseimageElement.src = imageUrl;              
                 imageCroper.src = imageUrl ;
                 
                 openModalBtn.click();//Modal opening
-
-                // const imageCroperContainer = document.getElementById('imageCroperContainer');
-                // const imageCroper = document.createElement('img');
-                // const childOfimageCroperContainer = document.getElementById('imageCroper');
-                // console.log("FIrst",childOfimageCroperContainer)
-                
-                
-                
-                // imageCroper.id = "imageCroper";
-                // imageCroper.src = imageUrl;
-                // imageCroper.style.width = "600px";
-                // imageCroperContainer.appendChild(imageCroper)
                 
                 if(window.cropperInstance){
                     window.cropperInstance.destroy();
                 }
                 
 
-                // This is for Cropper
+                //Cropper Initializing here
                 window.cropperInstance = new Cropper(imageCroper,{
                     aspectRatio: 1,
                     full: true, // Cover the whole image
@@ -162,11 +149,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 
                 
-                document.querySelector('#btn-crop').addEventListener('click',() => {
+                document.querySelector('#btn-crop').addEventListener('click',() => { 
                     
-                    var croppedImages = cropper.getCroppedCanvas().toDataURL('image/png');
-                    document.getElementById('output').src = croppedImages;
-                    document.querySelector(".cropped-container").style.display = 'flex';
+                    var formData = new FormData();
+                    // var croppedImages = cropperInstance.getCroppedCanvas().toDataURL('image/png'); Delete this line if Blob is worknig
+                    // document.getElementById('output').src = croppedImages; Delete this line if blob is working
+                    var croppedImages = cropperInstance.getCroppedCanvas();
+                    croppedImages.toBlob((blob) => {
+                        form.appendChild(blob)
+                    })
+
+                    // document.querySelector(".cropped-container").style.display = 'flex';
+
                 })
                 
                 // Cropper Croper ends here
@@ -177,10 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 })
-
-
-
-
 
 
 
