@@ -67,17 +67,18 @@
                         </div>
                         <div class="card-body">
 
+                            
 
-
-
-                            <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" method="post" enctype='multipart/form-data' >
+                            <!-- Check this part Im taking of method='post inorderto submit form from frontend'-->
+                            <!-- Check this part Im taking of method='post inorderto submit form from frontend'-->
+                            <form id="formForAddNewProduct" action="/admin/productslist/add_new_product" enctype='multipart/form-data' >
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="product_name" name="productName" >
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" rows="4" name="description" ></textarea>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" id="descriptionOfProduct" name="description" ></textarea>
                                 </div>
 
                                 <input class="form-control" type="file" id="addFirstProductImage" name="image">
@@ -90,14 +91,14 @@
                                         <div class="mb-4">
                                             <label class="form-label">Regular price</label>
                                             <div class="row gx-2">
-                                                <input placeholder="₹" name="regularPrice" type="text" class="form-control">
+                                                <input placeholder="₹" name="regularPrice" id="regularPrice" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-4">
                                             <label class="form-label">Sale price</label>
-                                            <input placeholder="₹" name="salePrice" type="text" class="form-control">
+                                            <input placeholder="₹" name="salePrice" id="salePrice" type="text" class="form-control">
                                         </div>
                                     </div>
 
@@ -106,7 +107,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-4">
                                             <label class="form-label">Stock Quantity</label>
-                                            <input placeholder="Enter the Quantity" name="stockQuantity" type="text" class="form-control">
+                                            <input placeholder="Enter the Quantity" name="stockQuantity" id="stockQuantity" type="text" class="form-control">
                                         </div>
                                     </div>
                                     

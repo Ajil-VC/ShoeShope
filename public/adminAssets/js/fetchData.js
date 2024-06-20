@@ -109,8 +109,8 @@ function listCategory(categoryID){
 
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
+    var formDataForAddNewProduct = new FormData();
 
     var openModalBtn = document.getElementById('openModalBtn');
     var chooseimageElement =  document.getElementById('addFirstProductImage');
@@ -151,12 +151,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 document.querySelector('#btn-crop').addEventListener('click',() => { 
                     
-                    var formData = new FormData();
+                   
                     // var croppedImages = cropperInstance.getCroppedCanvas().toDataURL('image/png'); Delete this line if Blob is worknig
                     // document.getElementById('output').src = croppedImages; Delete this line if blob is working
                     var croppedImages = cropperInstance.getCroppedCanvas();
                     croppedImages.toBlob((blob) => {
-                        form.appendChild(blob)
+                        if(blob){
+
+                            formDataForAddNewProduct.append('image',blob,'cropedimage.png')
+                        }else{
+
+                            console.log("No blob found")
+                        }
                     })
 
                     // document.querySelector(".cropped-container").style.display = 'flex';
@@ -170,9 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     })
 
-})
 
 
+    
 
     const publishBtnForAddProduct = document.getElementById('publishBtnForAddProduct');
     if(publishBtnForAddProduct){
@@ -183,28 +189,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const category = document.getElementById('category').value;
             const brand = document.getElementById('brand').value;
+            // const product_name = document.getElementById('product_name').value;
+            // const descriptionOfProduct = document.getElementById('descriptionOfProduct').value; 
+            // const regularPrice = document.getElementById('regularPrice').value;
+            // const salePrice = document.getElementById('salePrice').value;
+            // const stockQuantity = document.getElementById('stockQuantity').value;   
+          
+            
+            Array.from(form.elements).forEach(element => {
+
+                if(element.name && element.type !== 'file'){
+                    formDataForAddNewProduct.append(element.name, element.value);
+                    console.log(formDataForAddNewProduct)
+                }
+            })
 
             //Creating a hidden field to add to the form.
             const hiddenCategory = document.createElement('input');
             const hiddenBrand = document.createElement('input');
 
+            
             //Adding the hidden field to the form.
             hiddenCategory.type = 'hidden';
             hiddenCategory.name = 'category';
             hiddenCategory.value = category;
-            form.appendChild(hiddenCategory);
-
+            // form.appendChild(hiddenCategory);
+            
             hiddenBrand.type = 'hidden';
             hiddenBrand.name = 'brand';
             hiddenBrand.value = brand;
-            form.appendChild(hiddenBrand);
+            // form.appendChild(hiddenBrand);
+            
+            formDataForAddNewProduct.append(hiddenCategory.name, hiddenCategory.value);
+            formDataForAddNewProduct.append(hiddenBrand.name, hiddenBrand.value);
+            
+            fetch('http://localhost:2000/admin/productslist/add_new_product',{
+                method : 'post',
+                body : formDataForAddNewProduct
+            })
+            .then(response => {
+                if(!response.ok){
+                    throw new Error('Network response was not ok in submission of new product.')
+                }
+                return response.json();
+            })
+            .then(data => {
 
-            form.submit();
+                console.log('data recieved : ',data)
+                                 
+            })
+            .catch(error => {
+                console.log("There was a problem with submission of add new product operation",error)
+            });
+            // form.submit();
+
         })
     
     }
     
 
+
+
+
+})
 
 
 

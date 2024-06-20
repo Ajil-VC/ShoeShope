@@ -340,6 +340,8 @@ const loadAddNewProduct = async(req,res) => {
 
 const addNewProduct = async(req,res) => {
 
+    console.log("\n\n\n\n\nChecking from back",req.file,"\n\n\n\n\n",req.body);
+
     const { productName,description,regularPrice } = req.body;
     const {salePrice,stockQuantity,category,brand} = req.body;
 
@@ -358,7 +360,7 @@ const addNewProduct = async(req,res) => {
         });
 
         await newProduct.save();
-        return res.status(201).send("New Product added successfully");
+        // return res.status(201).send("New Product added successfully");
 
     }catch(error){
 
