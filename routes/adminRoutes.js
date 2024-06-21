@@ -7,7 +7,7 @@ const multer = require('multer')
 const storage = multer.diskStorage({
     destination: function(req,file,cb){
         
-        cb(null,path.join(__dirname,'../public'))
+        cb(null,path.join(__dirname,'../public/ProductImage'))
     },
     filename: function(req,file,cb){
         const name = Date.now()+'_'+file.originalname;
@@ -43,7 +43,7 @@ adminRouter.patch('/category',adminController.softDeleteCategory);
 
 adminRouter.get('/productslist',adminController.loadAllProducts);
 adminRouter.get('/productslist/add_new_product',adminController.loadAddNewProduct);
-adminRouter.post('/productslist/add_new_product',upload.single('image'),adminController.addNewProduct);
+adminRouter.post('/productslist/add_new_product',upload.array('image',3),adminController.addNewProduct);
 
 
 

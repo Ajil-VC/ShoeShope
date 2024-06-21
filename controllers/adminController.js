@@ -340,7 +340,7 @@ const loadAddNewProduct = async(req,res) => {
 
 const addNewProduct = async(req,res) => {
 
-    console.log("\n\n\n\n\nChecking from back",req.file,"\n\n\n\n\n",req.body);
+    console.log("\n\n\n\n\nChecking from back",req.files,"\n\n\n\n\n",req.body);
 
     const { productName,description,regularPrice } = req.body;
     const {salePrice,stockQuantity,category,brand} = req.body;
@@ -356,7 +356,7 @@ const addNewProduct = async(req,res) => {
             stockQuantity: stockQuantity,
             Category    : category,
             Brand   : brand,
-            image   : req.file.filename
+            image   : req.files.map(file => file.filename)
         });
 
         await newProduct.save();

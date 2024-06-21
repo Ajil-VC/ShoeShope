@@ -114,61 +114,74 @@ document.addEventListener('DOMContentLoaded', function() {
     const formDataForAddNewProduct = new FormData();
 
     var openModalBtn = document.getElementById('openModalBtn');
-    var chooseimageElement =  document.getElementById('addFirstProductImage');
+    // var addFirstProductImage =  document.getElementById('addFirstProductImage');
+    // addSecondProductImage = document.getElementById('addSecondProductImage');
+    // addThirdProductImage = document.getElementById('addThirdProductImage');
     const imageCroper = document.getElementById('imageCroper');
+    const form = document.getElementById('formForAddNewProduct');
+    let currentInputField = null;
+    let imageBlobs = [];
 
-    chooseimageElement.addEventListener('change',(e) =>{
 
-            var file = e.target.files[0];
-            const form = document.getElementById('formForAddNewProduct');
-           
-            if(!file){
-                return;
-            }
+                //**reader fn start here
+                function ReadFileAndCropper(file,reader,imageCroper,openModalBtn,chooseimageElement,){
 
-            var reader = new FileReader();
-            reader.onload = (event) => {
-              
-                
-                var imageUrl = event.target.result;
-    
-                chooseimageElement.src = imageUrl;              
-                imageCroper.src = imageUrl ;
-                
-                openModalBtn.click();//Modal opening
-                
-                if(window.cropperInstance){
-                    window.cropperInstance.destroy();
+                    reader.onload = (event) => {
+                      
+                        
+                        var imageUrl = event.target.result;
+            
+                        chooseimageElement.src = imageUrl;              
+                        imageCroper.src = imageUrl ;
+                        
+                        openModalBtn.click();//Modal opening
+                        
+                        if(window.cropperInstance){
+                            window.cropperInstance.destroy();
+                        }
+                        
+        
+                        //Cropper Initializing here
+                        window.cropperInstance = new Cropper(imageCroper,{
+                            aspectRatio: 1,
+                            full: true, // Cover the whole image
+                            autoCropArea: false // Allow free expansion
+                        })
+                        
+                        currentInputField = chooseimageElement;
+                    }
+                    reader.readAsDataURL(file);
                 }
+
                 
+        document.querySelectorAll('.addProduct-image-input').forEach(inputField => {
+            
+            inputField.addEventListener('change',(e) => {
+                let file = e.target.files[0];
+                if(!file){
+                    return;
+                }
+                let reader = new FileReader();
+                ReadFileAndCropper(file,reader,imageCroper,openModalBtn,e.target.dataset.field);
+            })
 
-                //Cropper Initializing here
-                window.cropperInstance = new Cropper(imageCroper,{
-                    aspectRatio: 1,
-                    full: true, // Cover the whole image
-                    autoCropArea: false // Allow free expansion
-                })
-                
-   
-            }
-            reader.readAsDataURL(file);
+        })
 
 
-    })
-    
     document.querySelector('#btn-crop').addEventListener('click', () => {
-
-    
+ 
         if (window.cropperInstance) {
-            const croppedImages = cropperInstance.getCroppedCanvas();
+
+            const croppedImages = window.cropperInstance.getCroppedCanvas();
             croppedImages.toBlob((blob) => {
-                console.log(blob)
-                console.log(formDataForAddNewProduct)
-                if (!formDataForAddNewProduct.has('image')) {
-                    formDataForAddNewProduct.append('image', blob, 'croppedimage.png');
-                } else {
-                    formDataForAddNewProduct.set('image', blob, 'croppedimage.png');
+
+                if(blob){
+                    console.log(blob)
+                    console.log(formDataForAddNewProduct);
+                    imageBlobs.push(blob);
+                    console.log(imageBlobs,"\nUpper one is arrya of blobs ");
                 }
+
             });
         }
     });
@@ -195,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
 
-            //Creating a hidden field to add to the form.
+
             const hiddenCategory = document.createElement('input');
             const hiddenBrand = document.createElement('input');
 
@@ -204,13 +217,15 @@ document.addEventListener('DOMContentLoaded', function() {
             hiddenCategory.type = 'hidden';
             hiddenCategory.name = 'category';
             hiddenCategory.value = category;
-            // form.appendChild(hiddenCategory);
             
             hiddenBrand.type = 'hidden';
             hiddenBrand.name = 'brand';
             hiddenBrand.value = brand;
-            // form.appendChild(hiddenBrand);
             
+            imageBlobs.forEach((blob,index) => {
+                
+                formDataForAddNewProduct.append('image', blob, `croppedimage${index+1}.png`);
+            });
             formDataForAddNewProduct.append(hiddenCategory.name, hiddenCategory.value);
             formDataForAddNewProduct.append(hiddenBrand.name, hiddenBrand.value);
             
